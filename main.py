@@ -2,17 +2,20 @@ from typing import TypedDict
 from langgraph.graph import StateGraph
 import math
 #graph 1
-class agentstate(TypedDict):
+class agentstate(TypedDict): #create a state
     name: str
 
 
-def greeting_node(state: agentstate) -> agentstate:
+def greeting_node(state: agentstate) -> agentstate: #node
+    """
+    This function is used to greet the user
+    """
     return {
         "name": "Hello, how are you?" + state["name"]
     }
 
 
-graph=StateGraph(agentstate)
+graph=StateGraph(agentstate) #create a graph
 
 graph.add_node("greeting", greeting_node)
 
@@ -29,6 +32,9 @@ class agentstate2(TypedDict):
     values: list[int]
 
 def add_node(state: agentstate2) -> agentstate2:
+    """
+    This function is used to add the values of the list
+    """
     return{
         "result": f"hey {state['name']}, your result is {sum(state['values'])}"
     }
@@ -52,6 +58,9 @@ class agentstate3(TypedDict):
     operation: str
 
 def add_node(state: agentstate3) -> agentstate3:
+    """
+    This function is used to add the values of the list or multiply the values of the list
+    """
     if state["operation"] == "+":
         return{
             "result":f"hey {state['name']}, your result is {sum(state['values'])}"
@@ -69,3 +78,6 @@ app3=graph3.compile()
 
 result3=app3.invoke({"name": "John", "values": [1, 2, 3, 4, 5], "operation": "*"})
 print(result3["result"])
+
+
+#sequential graph
